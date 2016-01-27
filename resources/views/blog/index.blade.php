@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>{{ config('blog.title') }}</title>
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+  <link href="{{ asset('css/bootstrap.min.css') }}"
         rel="stylesheet">
 </head>
 <body>

@@ -20,8 +20,12 @@ class AuthController extends Controller
     | a simple trait to add these behaviors. Why don't you explore it?
     |
     */
-
+    #use AuthenticatesUsers;
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+
+    #protected $redirectAfterLogout = '/auth/login';
+    #protected $redirectTo = '/admin/post';
+    private $redirectTo = '/';
 
     /**
      * Create a new authentication controller instance.
@@ -54,12 +58,12 @@ class AuthController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
-    }
+     protected function create(array $data)
+     {
+         return User::create([
+             'name' => $data['name'],
+             'email' => $data['email'],
+             'password' => bcrypt($data['password']),
+         ]);
+     }
 }

@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /*
 |--------------------------------------------------------------------------
@@ -16,23 +16,27 @@ Route::get('/', function () {
     return redirect('/blog');
 });
 
-get('blog','BlogController@index');
-get ('blog/{slug}','BlogController@showPost');
+Route::get('blog','BlogController@index');
+Route::get('blog/{slug}','BlogController@showPost');
 
 // Admin area
-get('admin', function () {
+Route::get('admin', function () {
   return redirect('/admin/post');
 });
 $router->group([
   'namespace' => 'Admin',
   'middleware' => 'auth',
 ], function () {
-  resource('admin/post', 'PostController');
-  resource('admin/tag', 'TagController', ['except' => 'show']);
-  get('admin/upload', 'UploadController@index');
+  Route::resource('admin/post', 'PostController');
+  Route::resource('admin/tag', 'TagController', ['except' => 'show']);
+  Route::get('admin/upload', 'UploadController@index');
+  Route::post('admin/upload/file', 'UploadController@uploadFile');
+  Route::delete('admin/upload/file', 'UploadController@deleteFile');
+  Route::post('admin/upload/folder', 'UploadController@createFolder');
+  Route::delete('admin/upload/folder', 'UploadController@deleteFolder');
 });
 
 // Logging in and out
-get('/auth/login', 'Auth\AuthController@getLogin');
-post('/auth/login', 'Auth\AuthController@postLogin');
-get('/auth/logout', 'Auth\AuthController@getLogout');
+Route::get('/auth/login', 'Auth\AuthController@getLogin');
+Route::post('/auth/login', 'Auth\AuthController@postLogin');
+Route::get('/auth/logout', 'Auth\AuthController@getLogout');

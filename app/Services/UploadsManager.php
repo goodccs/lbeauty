@@ -4,6 +4,7 @@ namespace App\Services;
 use Carbon\Carbon;
 use Dflydev\ApacheMimeTypes\PhpRepository;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UploadsManager
 {
@@ -119,7 +120,7 @@ class UploadsManager
   public function fileMimeType($path)
   {
       return $this->mimeDetect->findType(
-        pathinfo($path, PATHINFO_EXTENSION)
+        Str::lower(pathinfo($path, PATHINFO_EXTENSION))
       );
   }
 
@@ -199,6 +200,6 @@ class UploadsManager
     }
 
     return $this->disk->put($path, $content);
-  }  
+  }
 
 }

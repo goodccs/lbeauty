@@ -10,6 +10,7 @@ use App\Services\UploadsManager;// add by jcp
 use App\Http\Requests\UploadFileRequest;
 use App\Http\Requests\UploadNewFolderRequest;
 use Illuminate\Support\Facades\File;
+use Dflydev\ApacheMimeTypes\PhpRepository;
 
 class UploadController extends Controller
 {
@@ -103,10 +104,14 @@ class UploadController extends Controller
      */
     public function uploadFile(UploadFileRequest $request)
     {
+      $extension = '';
       $file = $_FILES['file'];
-      $fileName = $request->get('file_name');
+      $fileName =  $request->get('file_name');
+      if (! empty($fileName)) {
+        $extension = '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+      }
       $fileName = $fileName ?: $file['name'];
-      $path = str_finish($request->get('folder'), '/') . $fileName;
+      $path = str_finish($request->get('folder'), '/') . $fileName . $extension;
       $content = File::get($file['tmp_name']);
 
       $result = $this->manager->saveFile($path, $content);
